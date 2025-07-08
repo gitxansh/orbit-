@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Orbit
+  </title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1e293b;
+      --accent: #4f46e5;
+      --radius: 12px;
+      --transition: 0.2s ease;
+      --font: 'Inter', sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: #1e293b;
+      --fg: #f1f5f9;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    html, body {
+      height:100%; font-family: var(--font);
+      background: var(--bg); color: var(--fg);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem; text-align:center;
+      width: 90%; max-width: 360px;
+      transition: var(--transition);
+    }
+    h1 { margin-bottom:1rem; color: var(--accent); }
+    input {
+      width:100%; padding:0.75rem;
+      border:1px solid #e2e8f0; border-radius:var(--radius);
+      margin-bottom:1rem; font-size:1rem;
+      transition: var(--transition);
+    }
+    input:focus { border-color: var(--accent); outline:none; }
+    button {
+      width:100%; padding:0.75rem;
+      background: var(--accent); color:#fff;
+      border:none; border-radius: var(--radius);
+      font-size:1rem; cursor:pointer;
+      transition: var(--transition);
+    }
+    button:hover { background: #3730a3; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Welcome</h1>
+    <p>Please enter your name:</p>
+    <input id="nameInput" type="text" placeholder="Your name" maxlength="50" />
+    <button id="enterBtn">Enter</button>
+  </div>
+
+  <script>
+    const btn = document.getElementById('enterBtn');
+    const input = document.getElementById('nameInput');
+    btn.addEventListener('click', () => {
+      const name = input.value.trim();
+      if (name) {
+        // Redirect to index.html with name in query string
+        location.href = `index.html?user=${encodeURIComponent(name)}`;
+      } else {
+        input.focus();
+      }
+    });
+    // Allow Enter key to submit
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') btn.click();
+    });
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Productivity Hub</title>
+    <title>Orbit</title>
     <meta name="description" content="A comprehensive productivity dashboard for managing tasks, notes, and daily focus">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -442,10 +442,6 @@
                 <div class="icon">🏥</div>
                 <span>Health</span>
             </a>
-            <a href="#" class="nav-card" onclick="showNotification('Feature coming soon!')">
-                <div class="icon">📊</div>
-                <span>Analytics</span>
-            </a>
         </nav>
 
         <!-- Dashboard -->
@@ -485,6 +481,8 @@
             <div class="quote-author" id="quote-author">- Mark Twain</div>
         </section>
     </div>
+
+
 
     <script>
         // Application State
@@ -607,29 +605,22 @@
         }
 
         // DateTime functions
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', options);
-        }
+       function updateGreeting() {
+    // 1. Read the stored name (or default to “User”)
+    const storedName = localStorage.getItem('userName') || 'User';
+    APP_STATE.userName = storedName;
 
-        function updateGreeting() {
-            const hour = new Date().getHours();
-            let greeting;
-            
-            if (hour < 12) greeting = 'Good Morning';
-            else if (hour < 18) greeting = 'Good Afternoon';
-            else greeting = 'Good Evening';
-            
-            document.getElementById('greeting').textContent = `${greeting}, ${APP_STATE.userName}!`;
-        }
+    // 2. Compute greeting based on current hour
+    const hour = new Date().getHours();
+    let greeting;
+    if (hour < 12)        greeting = 'Good Morning';
+    else if (hour < 18)   greeting = 'Good Afternoon';
+    else                  greeting = 'Good Evening';
+
+    // 3. Update the DOM
+    document.getElementById('greeting').textContent = `${greeting}, ${storedName}!`;
+}
+
 
         // Task management
         function addTask() {
@@ -791,5 +782,44 @@
         // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
+
+<script>
+  // 1. Update date/time every second
+  function updateDateTime() {
+    const now = new Date();
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      
+    };
+    document.getElementById('datetime').textContent =
+      now.toLocaleDateString('en-US', options);
+  }
+
+  // 2. Update greeting based on hour and stored name
+  function updateGreeting() {
+    const storedName = localStorage.getItem('userName') || 'User';
+    const hour = new Date().getHours();
+    const greeting =
+      hour < 12 ? 'Good Morning' :
+      hour < 18 ? 'Good Afternoon' :
+      'Good Evening';
+    document.getElementById('greeting').textContent =
+      `${greeting}, ${storedName}!`;
+  }
+
+  // 3. Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    updateGreeting();
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  });
+</script>
+
+
 </body>
 </html>
